@@ -1,4 +1,4 @@
-package android.hunger.expensetracker;
+package android.hunger.expensetracker.adaptors;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;

@@ -1,5 +1,6 @@
-package android.hunger.expensetracker;
+package android.hunger.expensetracker.activities;
 
+import android.hunger.expensetracker.R;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
