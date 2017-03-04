@@ -1,70 +1,107 @@
 package android.hunger.expensetracker.activities;
 
+import android.content.Intent;
+import android.graphics.Rect;
 import android.hunger.expensetracker.R;
+import android.hunger.expensetracker.adaptors.GroupMainExpenseRecyAdaptor;
+import android.hunger.expensetracker.utils.Callback;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class MainActivity extends AppCompatActivity {
-  @BindView(R.id.mainExpenceRecyV) private RecyclerView recyclerViewmainExpense;
-   private RecyclerView.LayoutManager layoutManager;
-
-
-
+public class MainActivity extends AppCompatActivity implements Callback {
+    private CollapsingToolbarLayout
+            collapsingToolbar;
+    private LinearLayoutManager linearLayManager;
+    private RecyclerView mainRecyclerView;
+    private GroupMainExpenseRecyAdaptor groupMainExpenseRecyAdaptor;
+    private static final String TAG = "MainActivity";
+    private AddGroupActivity addGroupActivity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("ExpenseTracker");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar.setTitle("Add Expenses");
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        initViews();
 
+        linearLayManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
+        groupMainExpenseRecyAdaptor = new GroupMainExpenseRecyAdaptor(this);
+        mainRecyclerView.setAdapter(groupMainExpenseRecyAdaptor);
+        mainRecyclerView.setLayoutManager(linearLayManager);
+        mainRecyclerView.addItemDecoration(new SpacesItemDecoration(0));
 
     }
 
+    private void initViews() {
+        mainRecyclerView = (RecyclerView) findViewById(R.id.mainRecyView);
+    }
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    public void onClikeCallback() {
+
+        Intent intent=new Intent(this,AddGroupActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+                super.onBackPressed();
         }
 
-        return super.onOptionsItemSelected(item);
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private final int mSpace;
+
+        public SpacesItemDecoration(int space) {
+            this.mSpace = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.left = mSpace;
+            outRect.right = mSpace;
+            outRect.bottom = mSpace;
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildAdapterPosition(view) == 1)
+                outRect.top = 0;
+        }
     }
 }

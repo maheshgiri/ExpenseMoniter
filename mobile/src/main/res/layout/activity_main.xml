@@ -5,30 +5,97 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+
     tools:context="android.hunger.expensetracker.activities.MainActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/mainAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="300dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:overScrollMode="ifContentScrolls">
+
+                <TextView
+                    android:id="@+id/textOwe"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_above="@+id/textget"
+                    android:layout_marginRight="10dp"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:gravity="center"
+                    android:text="You OWE"
+                    android:textAlignment="gravity"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/buttonOwe"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_toEndOf="@+id/textOwe"
+                    android:layout_toRightOf="@+id/textOwe"
+                    android:text="₹ 0"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/textget"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_alignBottom="@+id/buttonget"
+                    android:layout_below="@+id/buttonOwe"
+                    android:layout_marginRight="10dp"
+                    android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+                    android:gravity="center"
+                    android:text="You get"
+                    android:textAlignment="gravity"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/buttonget"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_below="@+id/buttonOwe"
+                    android:layout_toRightOf="@+id/textget"
+                    android:text="₹ 0"
+                    android:textColor="@android:color/white" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mainRecyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/btn_minus" />
 
 </android.support.design.widget.CoordinatorLayout>
